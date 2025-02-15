@@ -1,18 +1,25 @@
 import { useState } from "react";
-import contactUs from "../assets/contactUs.png"
+import contactUs from "../assets/contactUs.png";
+
 const ContactUs = () => {
   const [contactUsForm, setContactUsForm] = useState({
     name: "",
     email: "",
     message: "",
+    contactType: "say-hi", // Default selection
   });
 
   const handleChange = (e) => {
-    setContactUsForm({ ...contactUsForm, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setContactUsForm((prev) => ({
+      ...prev,
+      [name]: type === "radio" ? value : value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(contactUsForm);
   };
 
   return (
@@ -34,6 +41,7 @@ const ContactUs = () => {
                 type="radio"
                 name="contactType"
                 id="say-hi"
+                value="say-hi"
                 checked={contactUsForm.contactType === "say-hi"}
                 onChange={handleChange}
                 className="size-6 accent-figmaGreen"
@@ -45,6 +53,7 @@ const ContactUs = () => {
                 type="radio"
                 name="contactType"
                 id="get-quote"
+                value="get-quote"
                 checked={contactUsForm.contactType === "get-quote"}
                 onChange={handleChange}
                 className="size-6 accent-figmaGreen"
@@ -58,6 +67,7 @@ const ContactUs = () => {
               <label htmlFor="name">Name</label>
               <input
                 id="name"
+                name="name"
                 value={contactUsForm.name}
                 onChange={handleChange}
                 className="mt-1.5 p-4 border border-black rounded-xl"
@@ -69,6 +79,7 @@ const ContactUs = () => {
               <label htmlFor="email">Email*</label>
               <input
                 id="email"
+                name="email"
                 value={contactUsForm.email}
                 onChange={handleChange}
                 className="mt-1.5 p-4 border border-black rounded-xl"
@@ -80,6 +91,7 @@ const ContactUs = () => {
               <label htmlFor="message">Message*</label>
               <textarea
                 id="message"
+                name="message"
                 value={contactUsForm.message}
                 onChange={handleChange}
                 className="mt-1.5 p-4 border border-black rounded-xl resize-none"
@@ -89,12 +101,14 @@ const ContactUs = () => {
             </div>
           </div>
 
-          <button type="submit"
-            className="w-full bg-figmaDark text-white p-5 rounded-xl hover:bg-gray-800" >
+          <button
+            type="submit"
+            className="w-full bg-figmaDark text-white p-5 rounded-xl hover:bg-gray-800"
+          >
             Send Message
           </button>
         </form>
-        <img src={contactUs} alt="" className="pl-0 ml-0" />
+        <img src={contactUs} alt="Contact Us" className="pl-0 ml-0" />
       </div>
     </div>
   );
